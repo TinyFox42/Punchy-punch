@@ -12,13 +12,20 @@ class fighter(object):
         self.hp=mhp
     def __str__(self):
         #When you try to print it normally, 
-        return "%10s (%3ld%)"%(self.name, ((100*self.hp)/self.mhp))
+        return "%10s (%3ld%s)"%(self.name, ((100*self.hp)/self.mhp),'%')
+        #I'll work on making this a nicer print later on.
+        #Like by finding out how to put a % symbol in there without messing up the format string
     def defend(self, hit):
         #for now, "hit" is just a number of damage points. Later on it will be an object, for special defense logic
         d=hit-self.ac
+        if self.hp<=0:
+            return "%s has already been defeated!"%(self.name)
         if d>0:
             self.hp-=d
-            return "%s was hit for %d damage!"%(self.name, d)
+            if self.hp>0:
+                return "%s was hit for %d damage!"%(self.name, d)
+            else:
+                return "%s was hit for %d damage! %s has been defeated!"%(self.name, d, self.name)
         else:
             return "%s blocked the attack!"%(self.name)
-    
+

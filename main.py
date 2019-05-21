@@ -1,4 +1,5 @@
 #A simple little game, at least for now
+import abilities
 
 class fighter(object):
     def __init__(self, name, mhp=10, ac=0):
@@ -35,8 +36,14 @@ class fighter(object):
         #Removes an ability
         #Note- you give this function the specific ability OBJECT, not just an object of the same ability type
         self.skills.remove(abil)
+    def skill_list(self):
+        n=""
+        for i in range(len(self.skills)):
+            n+=str(self.skills[i])
+            n+="\n"
+        
 
-class abil(object):
+'''class abil(object):
     #Does Python have abstract classes? This is an abstract class, pretty much
     def __init__(self, lvl=0):
         self.name="Confetti"
@@ -48,4 +55,5 @@ class abil(object):
         #tar is the fighter that is the target of the ability
         return "%s is showered in confetti! It has litterally no effect!"%(tar.name)
     def __str__(self):
-        return "%10s (lvl.%2d)"%(self.name, self.lvl)
+        return "%10s (lvl.%2d)"%(self.name, self.lvl)'''
+

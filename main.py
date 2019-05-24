@@ -14,22 +14,23 @@ class fighter(object):
         self.skills=[]
     def __str__(self):
         #When you try to print it normally, 
-        return "%10s (%3ld%s)"%(self.name, ((100*self.hp)/self.mhp),'%')
+        #return "%10s (%3ld%s)"%(self.name, ((100*self.hp)/self.mhp),'%')
+        return "{0:10} ({1:3}%)".format(self.name, ((100*self.hp)/self.mhp))
         #I'll work on making this a nicer print later on.
         #Like by finding out how to put a % symbol in there without messing up the format string
     def defend(self, hit):
         #for now, "hit" is just a number of damage points. Later on it will be an object, for special defense logic
         d=hit-self.ac
         if self.hp<=0:
-            return "%s has already been defeated!"%(self.name)
+            return "{0} has already been defeated!".format(self.name)
         if d>0:
             self.hp-=d
             if self.hp>0:
-                return "%s was hit for %d damage!"%(self.name, d)
+                return "{0} was hit for {1} damage!".format(self.name, d)
             else:
-                return "%s was hit for %d damage! %s has been defeated!"%(self.name, d, self.name)
+                return "{0} was hit for {1} damage! {0} has been defeated!".format(self.name, d)
         else:
-            return "%s blocked the attack!"%(self.name)
+            return "{0} blocked the attack!".format(self.name)
     def learn(self, abil):
         self.skills.append(abil)
     def forget(self, abil):
@@ -42,10 +43,11 @@ class fighter(object):
             n+=str(i)+". "
             n+=str(self.skills[i])
             n+="\n"
+        return n
     def use_skill(self, pos, tar):
         #pos is the index of the skill in the skill list
         #tar is the target of the skill
-        self.skills[pos].use(self, tar)
+        return self.skills[pos].use(self, tar)
     def wait(self, time, event, evtData):
         #time is the number of time units to wait before the thing happens
         #event is the function that is called after that
@@ -56,7 +58,7 @@ class fighter(object):
     def tick(self):
         if self.hp<=0:
             #anything that happens when unconcious
-            return "%s is defeated."%(self.name)
+            return "{0} is defeated.".format(self.name)
         if type(self.timer)==int:
             if self.timer<=0:
                 n=self.event(self.evtData)#not sure if this will actually work or not...

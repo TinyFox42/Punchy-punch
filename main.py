@@ -56,15 +56,17 @@ class fighter(object):
     def tick(self):
         if self.hp<=0:
             #anything that happens when unconcious
-            return
+            return "%s is defeated."%(self.name)
         if type(self.timer)==int:
             if self.timer<=0:
-                self.event(self.evtData)#not sure if this will actually work or not...
+                n=self.event(self.evtData)#not sure if this will actually work or not...
                 self.timer=None
+                return n
             else:
                 self.timer-=1
-                return
+                return ""
         #decision function! AI writing! Whoo!
+
 
 '''class abil(object):
     #Does Python have abstract classes? This is an abstract class, pretty much

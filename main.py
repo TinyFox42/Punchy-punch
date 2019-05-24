@@ -81,7 +81,14 @@ class fighter(object):
                 self.timer-=1
                 return ""
         #decision function! AI writing! Whoo!
-
+            
+    def decide(self, allies, enimies):
+        #for the base fighter class, this will just be asking for user input
+        print allies
+        print enimies
+        print self.skill_list()
+        #print You know what? I feel done for now.
+        
 class team(object):
     def __init__(self, name):
         self.members=[]

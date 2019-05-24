@@ -44,9 +44,10 @@ class fighter(object):
         #Removes an ability
         #Note- you give this function the specific ability OBJECT, not just an object of the same ability type
         self.skills.remove(abil)
-    def skill_list(self):
+    def skill_list(self,t=0):
         n=""
         for i in range(len(self.skills)):
+            n+="\t"*t
             n+=str(i)+". "
             n+=str(self.skills[i])
             n+="\n"
@@ -65,13 +66,13 @@ class fighter(object):
         if self.sts==stsR:
             self.sts=stsW
         else:
-            raise TypeError "{0} was told to wait, while in invalid status {1}".format(self.name, self.sts)
+            raise TypeError ("{0} was told to wait, while in invalid status {1}".format(self.name, self.sts))
         
     def tick(self):
-        if self.sts=stsD:
+        if self.sts==stsD:
             #anything that happens when unconcious, with some other return statement in there
             return ""
-        if self.sts=stsW:
+        if self.sts==stsW:
             if self.timer<=0:
                 n=self.event(self.evtData)#not sure if this will actually work or not...
                 self.timer=None
@@ -84,10 +85,41 @@ class fighter(object):
             
     def decide(self, allies, enimies):
         #for the base fighter class, this will just be asking for user input
+        print "You are playing as:"
+        print "\t"+str(self)
         print allies
         print enimies
-        print self.skill_list()
-        #print You know what? I feel done for now.
+        print "Available actions:"
+        print "\tL-List all skills"
+        print "\tD-Ask for description of a skill"
+        print "\tU-Use skill"
+        cont=True
+        while cont:
+            x=raw_input(">")
+            x=x.lower().strip()
+            if x=="l":
+                print self.skill_list()
+            if x=="d":
+                n=raw_input("Skill number: ")
+                if n.isdigit():
+                    n=int(n)
+                    if n<0 or n>=len(self.skills):
+                        print "Invalid skill number!"
+                        continue
+                    self.skills[int(n)].desc()
+                else:
+                    print "That is not a number..."
+            if x=="u":
+                n=raw_input("Skill number: ")
+                if not n.isdigit():
+                    print "That is not a number..."
+                    continue
+                n=int(n)
+                if n<0 or n>=len(self.skills):
+                    print "Invalid skill number!"
+                    continue
+                #I need to finish this later. Get the target team, get the target number, and then use the skill
+                #...
         
 class team(object):
     def __init__(self, name):

@@ -39,9 +39,32 @@ class fighter(object):
     def skill_list(self):
         n=""
         for i in range(len(self.skills)):
+            n+=str(i)+". "
             n+=str(self.skills[i])
             n+="\n"
-        
+    def use_skill(self, pos, tar):
+        #pos is the index of the skill in the skill list
+        #tar is the target of the skill
+        self.skills[pos].use(self, tar)
+    def wait(self, time, event, evtData):
+        #time is the number of time units to wait before the thing happens
+        #event is the function that is called after that
+        #evtData is the other information the event function needs
+        self.timer=time
+        self.event=event
+        self.evtData=evtData
+    def tick(self):
+        if self.hp<=0:
+            #anything that happens when unconcious
+            return
+        if type(self.timer)==int:
+            if self.timer<=0:
+                self.event(self.evtData)#not sure if this will actually work or not...
+                self.timer=None
+            else:
+                self.timer-=1
+                return
+        #decision function! AI writing! Whoo!
 
 '''class abil(object):
     #Does Python have abstract classes? This is an abstract class, pretty much

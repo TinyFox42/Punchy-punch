@@ -1,5 +1,9 @@
 #A simple little game, at least for now
 import abilities
+#Statuses.
+stsD=-1 #dead/defeated
+stsR=0  #ready for new action
+stsW=1  #waiting for event
 
 class fighter(object):
     def __init__(self, name, mhp=10, ac=0):
@@ -12,6 +16,8 @@ class fighter(object):
         self.ac=ac
         self.hp=mhp
         self.skills=[]
+        self.sts=stsR
+        
     def __str__(self):
         #When you try to print it normally, 
         #return "%10s (%3ld%s)"%(self.name, ((100*self.hp)/self.mhp),'%')
@@ -28,6 +34,7 @@ class fighter(object):
             if self.hp>0:
                 return "{0} was hit for {1} damage!".format(self.name, d)
             else:
+                self.sts=stsD
                 return "{0} was hit for {1} damage! {0} has been defeated!".format(self.name, d)
         else:
             return "{0} blocked the attack!".format(self.name)
@@ -55,21 +62,63 @@ class fighter(object):
         self.timer=time
         self.event=event
         self.evtData=evtData
+        if self.sts==stsR:
+            self.sts=stsW
+        else:
+            raise TypeError "{0} was told to wait, while in invalid status {1}".format(self.name, self.sts)
+        
     def tick(self):
-        if self.hp<=0:
-            #anything that happens when unconcious
-            return "{0} is defeated.".format(self.name)
-        if type(self.timer)==int:
+        if self.sts=stsD:
+            #anything that happens when unconcious, with some other return statement in there
+            return ""
+        if self.sts=stsW:
             if self.timer<=0:
                 n=self.event(self.evtData)#not sure if this will actually work or not...
                 self.timer=None
+                self.sts=stsR
                 return n
             else:
                 self.timer-=1
                 return ""
         #decision function! AI writing! Whoo!
 
+class team(object):
+    def __init__(self, name):
+        self.members=[]
+        self.name=name
+    def __str__(self):
+        n=""
+        n+="{0}:".format(self.name)
+        for i in range(len(self.members)):
+            n+="\t"+str(i)+". "
+            n+=str(self.members[i])
+            n+="\n"
+        return n
+    def tick(self):
+        n=""
+        for i in range(len(self.members)):
+            x=self.members[i].tick()
+            if x!="":
+                n+=x
+        return n
+    def defend(self, hit):
+        for i in range(len(self.members)):
+            self.members[i].defend(hit)
+    def add_member(self, member):
+        self.members.append(member)
 
+class fight(object):
+    #the main runner class. Finally getting to this!
+    def __init__(self,team1,team2):
+        self.t1=team1
+        self.t2=team2
+    def tick(self):
+        print self.t1.tick()
+        print self.t2.tick()
+    def __str__(self):
+        n=""
+        n+=str(t1)
+        n+=str(t2)
 '''class abil(object):
     #Does Python have abstract classes? This is an abstract class, pretty much
     def __init__(self, lvl=0):

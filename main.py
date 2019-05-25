@@ -118,8 +118,52 @@ class fighter(object):
                 if n<0 or n>=len(self.skills):
                     print "Invalid skill number!"
                     continue
+                sk=self.skills[n]
+                sn=n
                 #I need to finish this later. Get the target team, get the target number, and then use the skill
                 #...
+                print "You have selected the following skill:"
+                print sk.desc()
+                print "Would you like to target an Ally, Enemy, or Cancel? (a/e/C)"
+                x=raw_input(">")
+                x=x.strip().lower()
+                if x=="e":
+                    print str(enimies)
+                    n=raw_input("Enemy number: ")
+                    if not n.isdigit():
+                        print "That is not a number..."
+                        continue
+                    n=int(n)
+                    if n<0 or n>=enimies.get_member_count():
+                        print "Invalid enemy number."
+                        continue
+                    tar=enimies.get_member(n)
+                    print "You have selected the enemy: "+str(tar)
+                    print("Are you sure you want to do this? y/N")
+                    x=raw_input(">")
+                    x=x.strip().lower()
+                    if x=="y":
+                        return self.use_skill(sn, tar)
+                    continue
+                if x=="a":
+                    print str(allies)
+                    n=raw_input("Ally number: ")
+                    if not n.isdigit():
+                        print "That is not a number..."
+                        continue
+                    n=int(n)
+                    if n<0 or n>=allies.get_member_count():
+                        print "Invalid ally number."
+                        continue
+                    tar=allies.get_member(n)
+                    print "You have selected the ally: "+str(tar)
+                    print "Are you sure you want to do this? y/N"
+                    x=raw_input(">")
+                    x=x.strip().lower()
+                    if x=="y":
+                        return self.use_skill(sn, tar)
+                    continue
+                continue
         
 class team(object):
     def __init__(self, name):
@@ -145,6 +189,12 @@ class team(object):
             self.members[i].defend(hit)
     def add_member(self, member):
         self.members.append(member)
+    def get_member_count(self):
+        #For overloading later on
+        return len(self.members)
+    def get_member(self, pos):
+        #assumes that the caller wasn't stupid
+        return self.members[pos]
 
 class fight(object):
     #the main runner class. Finally getting to this!
@@ -156,8 +206,8 @@ class fight(object):
         print self.t2.tick()
     def __str__(self):
         n=""
-        n+=str(t1)
-        n+=str(t2)
+        n+=str(self.t1)
+        n+=str(self.t2)
 '''class abil(object):
     #Does Python have abstract classes? This is an abstract class, pretty much
     def __init__(self, lvl=0):

@@ -81,7 +81,14 @@ class fighter(object):
             else:
                 self.timer-=1
                 return ""
-        #decision function! AI writing! Whoo!
+    def is_defeated(self):
+        if self.sts==stsD:
+            return True
+        return False
+    def is_ready(self):
+        if self.sts==stsR:
+            return True
+        return False
             
     def decide(self, allies, enimies):
         #for the base fighter class, this will just be asking for user input
@@ -189,7 +196,7 @@ class team(object):
         n=""
         for i in range(len(self.members)):
             ft=self.members[i]
-            if ft.sts==stsR:
+            if ft.is_ready():
                 n+=ft.decide(self, enimies)
         return n
         
@@ -206,7 +213,7 @@ class team(object):
         return self.members[pos]
     def is_defeated(self):
         for i in range(len(self.members)):
-            if self.members[i].sts==stsD:
+            if not self.members[i].is_defeated():
                 return False
         return True
 

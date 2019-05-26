@@ -22,5 +22,12 @@ class physical(event):
         self.tar=tar
     
     def tick(self):
-        self.tk-=1
+        if not self.usr.is_defeated():
+            self.tk-=1
+            #if (self.tk)==(self.time/2)
+            #Possibly put charging noticies here
+            
+            #if self.tk<=0:
+                #Oh goodness, this will be difficult
         
+    

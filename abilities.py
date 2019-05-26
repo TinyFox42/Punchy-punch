@@ -22,7 +22,8 @@ class abil(object):
         self.update_flavor()
         n=str(self)+":\n"
         n+="\tCharge Time:{0:>2}".format(self.tm)
-        n+="\t"+self.des        
+        n+="\t"+self.des 
+        return n       
 class punch(abil):
     def __init__(self, lvl=0):
         self.name="Punch"

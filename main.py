@@ -106,7 +106,7 @@ class fighter(object):
                     if n<0 or n>=len(self.skills):
                         print "Invalid skill number!"
                         continue
-                    self.skills[int(n)].desc()
+                    print self.skills[int(n)].desc()
                 else:
                     print "That is not a number..."
             if x=="u":
@@ -162,6 +162,7 @@ class fighter(object):
                     x=x.strip().lower()
                     if x=="y":
                         return self.use_skill(sn, tar)
+                        
                     continue
                 continue
         
@@ -172,6 +173,7 @@ class team(object):
     def __str__(self):
         n=""
         n+="{0}:".format(self.name)
+        n+="\n"
         for i in range(len(self.members)):
             n+="\t"+str(i)+". "
             n+=str(self.members[i])
@@ -184,6 +186,14 @@ class team(object):
             if x!="":
                 n+=x
         return n
+    def decide(self, enimies):
+        n=""
+        for i in range(len(self.members)):
+            ft=self.members[i]
+            if ft.sts==stsR:
+                n+=ft.decide(self, enimies)
+        return n
+        
     def defend(self, hit):
         for i in range(len(self.members)):
             self.members[i].defend(hit)
@@ -202,7 +212,9 @@ class fight(object):
         self.t1=team1
         self.t2=team2
     def tick(self):
+        print self.t1.decide(self.t2)
         print self.t1.tick()
+        print self.t2.decide(self.t1)
         print self.t2.tick()
     def __str__(self):
         n=""

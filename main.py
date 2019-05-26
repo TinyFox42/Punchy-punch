@@ -162,7 +162,6 @@ class fighter(object):
                     x=x.strip().lower()
                     if x=="y":
                         return self.use_skill(sn, tar)
-                        
                     continue
                 continue
         
@@ -205,6 +204,11 @@ class team(object):
     def get_member(self, pos):
         #assumes that the caller wasn't stupid
         return self.members[pos]
+    def is_defeated(self):
+        for i in range(len(self.members)):
+            if self.members[i].sts==stsD:
+                return False
+        return True
 
 class fight(object):
     #the main runner class. Finally getting to this!

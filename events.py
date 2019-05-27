@@ -27,7 +27,8 @@ class physical(event):
             #if (self.tk)==(self.time/2)
             #Possibly put charging noticies here
             
-            #if self.tk<=0:
-                #Oh goodness, this will be difficult
-        
-    
+            if self.tk<=0:
+                #self.usr.del_event(self)
+                return self.result(self.usr, self.tar)
+    def kill(self):
+        self.usr.del_event(self)

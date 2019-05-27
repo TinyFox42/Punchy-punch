@@ -17,6 +17,7 @@ class fighter(object):
         self.hp=mhp
         self.skills=[]
         self.sts=stsR
+        self.evts=[]
         
     def __str__(self):
         #When you try to print it normally, 
@@ -82,7 +83,11 @@ class fighter(object):
                 self.timer-=1
                 return ""
         #decision function! AI writing! Whoo!
-            
+    def start_event(self, event):
+        self.evts.append(event)
+    def kill_event(self, event):
+        self.evts.remove(event)
+                
     def decide(self, allies, enimies):
         #for the base fighter class, this will just be asking for user input
         print "You are playing as:"

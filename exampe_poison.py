@@ -19,6 +19,7 @@ class ex_poison(statuses.unit_status):
     #An example status, of being poisoned, in a really simple way (example, not feature)
     def __init__(self, time, unit):
         self.time=time
+        self.tk=time
         self.unit=unit
         self.tickev=poison_tick
         self.death=poison_die

@@ -87,7 +87,9 @@ class fighter(object):
         self.evts.append(event)
     def kill_event(self, event):
         self.evts.remove(event)
-                
+    def is_defeated(self):
+        return self.sts==stsD
+    
     def decide(self, allies, enimies):
         #for the base fighter class, this will just be asking for user input
         print "You are playing as:"

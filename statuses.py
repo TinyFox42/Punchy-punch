@@ -23,16 +23,17 @@ class unit_status(status):
         self.unit=unit
     
     def tick(self):
-        if not self.usr.is_defeated():
+        n=""
+        if not self.unit.is_defeated():
             self.tk-=1
-            self.tickev(self.unit)
+            n+=self.tickev(self.unit)
             for i in self.reps.keys():
                 if ((i*self.time)/100)==self.tk:
-                    print self.reps[i].format(self.unit.name)
+                    n+=self.reps[i].format(self.unit.name)
             
             if self.tk<=0:
                 self.unit.del_event(self)
-                return self.result(self.unit)
+                return n+self.result(self.unit)
     def kill(self):
         self.unit.del_event(self)
         return self.death(self.unit)

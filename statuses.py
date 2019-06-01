@@ -13,7 +13,7 @@ class status(object):
         pass
 
 class unit_status(status):
-    def __init__(self, time, tickev, result, death, unit, reps={}):
+    def __init__(self, time, unit, tickev, result, death, reps={}):
         self.time=time
         self.tk=time
         self.result=result
@@ -36,3 +36,4 @@ class unit_status(status):
     def kill(self):
         self.unit.del_event(self)
         return self.death(self.unit)
+        

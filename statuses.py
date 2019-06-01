@@ -1,6 +1,6 @@
 #The event timer system. An abstract class
 class status(object):
-    def __init__(self, time):
+    def __init__(self):
         #create the event
         pass
         
@@ -31,10 +31,10 @@ class unit_status(status):
                 n+=self.reps[i].format(self.unit.name)
             
         if self.tk<=0:
-            #self.unit.del_event(self)
+            #self.unit.del_stat(self)
             return n+self.result(self.unit)
         return n
     def kill(self):
-        #self.unit.del_event(self)
+        #self.unit.del_stat(self)
         return self.death(self.unit)
         

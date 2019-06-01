@@ -17,7 +17,7 @@ class fighter(object):
         self.hp=mhp
         self.skills=[]
         self.sts=stsR
-        self.evts=[]
+        self.stats=[]
         
     def __str__(self):
         #When you try to print it normally, 
@@ -57,7 +57,7 @@ class fighter(object):
         #pos is the index of the skill in the skill list
         #tar is the target of the skill
         return self.skills[pos].use(self, tar)
-    def wait(self, time, event, evtData):
+    '''def wait(self, time, event, evtData):
         #time is the number of time units to wait before the thing happens
         #event is the function that is called after that
         #evtData is the other information the event function needs
@@ -67,9 +67,10 @@ class fighter(object):
         if self.sts==stsR:
             self.sts=stsW
         else:
-            raise TypeError ("{0} was told to wait, while in invalid status {1}".format(self.name, self.sts))
+            raise TypeError ("{0} was told to wait, while in invalid status {1}".format(self.name, self.sts))'''
         
-    def tick(self):
+    
+    '''def tick(self):
         if self.sts==stsD:
             #anything that happens when unconcious, with some other return statement in there
             return ""
@@ -82,11 +83,21 @@ class fighter(object):
             else:
                 self.timer-=1
                 return ""
-        #decision function! AI writing! Whoo!
-    def start_event(self, event):
+        #decision function! AI writing! Whoo!'''
+    '''def start_event(self, event):
         self.evts.append(event)
     def kill_event(self, event):
-        self.evts.remove(event)
+        self.evts.remove(event)'''
+    def tick(self):
+        n=""
+        for stat in self.stats:
+            n+=stat.tick()
+            n+="\n"
+        return
+    def start_stat(self, stat):
+        self.stats.append(stat)
+    def end_stat(self, stat):
+        self.stats.remove(stat)
     def is_defeated(self):
         return self.sts==stsD
     

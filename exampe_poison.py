@@ -25,3 +25,6 @@ class ex_poison(statuses.unit_status):
         self.death=poison_die
         self.result=poison_end
         self.reps=poison_reps
+def alt_poison(time, unit):
+    #An in-line creation of a new status, instead of a new class for a new status. For things that won't be reused as much
+    return statuses.unit_status(time, unit,poison_tick, poison_end, poison_die, poison_reps)

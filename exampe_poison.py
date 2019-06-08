@@ -1,4 +1,5 @@
 import statuses
+import abilities
 def poison_tick(unit):
     #Take a small amount of damage every turn
     n="The poison takes its effect on {0}!\n".format(unit.name)
@@ -28,3 +29,10 @@ class ex_poison(statuses.unit_status):
 def alt_poison(time, unit):
     #An in-line creation of a new status, instead of a new class for a new status. For things that won't be reused as much
     return statuses.unit_status(time, unit,poison_tick, poison_end, poison_die, poison_reps)
+    
+class cheaty_poison(abilities.abil):
+    def __init__(self):
+        self.name="Poison"
+        self.lvl=100
+        self.desc="Immediately poisons someone. It's not cheating, you're cheating!"
+    

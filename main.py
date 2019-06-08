@@ -100,6 +100,10 @@ class fighter(object):
         self.stats.remove(stat)
     def is_defeated(self):
         return self.sts==stsD
+    def is_charging(self):
+        return self.sts==stsW
+    def end_charging(self):
+        self.sts=stsR
     
     def decide(self, allies, enimies):
         #for the base fighter class, this will just be asking for user input

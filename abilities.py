@@ -21,10 +21,11 @@ class abil(object):
     def desc(self):
         self.update_flavor()
         n=str(self)+":\n"
-        n+="\tCharge Time:{0:>2}".format(self.tm)
+        #n+="\tCharge Time:{0:>2}".format(self.tm)
         n+="\t"+self.des 
         return n       
-class punch(abil):
+#Old punch ability. Used the old events system, instead of the new statuses ability
+'''class punch(abil):
     def __init__(self, lvl=0):
         self.name="Punch"
         self.lvl=lvl
@@ -43,4 +44,4 @@ class punch(abil):
         n="{0} punches {1}!".format(usr.name, tar.name)
         n+="\n"
         n+=tar.defend(5)
-        return n
+        return n'''

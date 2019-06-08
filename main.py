@@ -57,37 +57,6 @@ class fighter(object):
         #pos is the index of the skill in the skill list
         #tar is the target of the skill
         return self.skills[pos].use(self, tar)
-    '''def wait(self, time, event, evtData):
-        #time is the number of time units to wait before the thing happens
-        #event is the function that is called after that
-        #evtData is the other information the event function needs
-        self.timer=time
-        self.event=event
-        self.evtData=evtData
-        if self.sts==stsR:
-            self.sts=stsW
-        else:
-            raise TypeError ("{0} was told to wait, while in invalid status {1}".format(self.name, self.sts))'''
-        
-    
-    '''def tick(self):
-        if self.sts==stsD:
-            #anything that happens when unconcious, with some other return statement in there
-            return ""
-        if self.sts==stsW:
-            if self.timer<=0:
-                n=self.event(self.evtData)#not sure if this will actually work or not...
-                self.timer=None
-                self.sts=stsR
-                return n
-            else:
-                self.timer-=1
-                return ""
-        #decision function! AI writing! Whoo!'''
-    '''def start_event(self, event):
-        self.evts.append(event)
-    def kill_event(self, event):
-        self.evts.remove(event)'''
     def tick(self):
         n=""
         for stat in self.stats:
@@ -98,12 +67,17 @@ class fighter(object):
         self.stats.append(stat)
     def end_stat(self, stat):
         self.stats.remove(stat)
+    #Yeah, I'm going to rework this whole system later:
     def is_defeated(self):
         return self.sts==stsD
     def is_charging(self):
         return self.sts==stsW
     def end_charging(self):
         self.sts=stsR
+    def start_charging(self):
+        self.sts=stsW
+    def is_ready(self):
+        return self.sts==stsR
     
     def decide(self, allies, enimies):
         #for the base fighter class, this will just be asking for user input

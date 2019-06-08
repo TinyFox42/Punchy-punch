@@ -35,4 +35,3 @@ class cheaty_poison(abilities.abil):
         self.name="Poison"
         self.lvl=100
         self.desc="Immediately poisons someone. It's not cheating, you're cheating!"
-    

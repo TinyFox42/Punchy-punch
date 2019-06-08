@@ -1,13 +1,11 @@
 #Skills list, separated so that I can keep this all organized
-
+import statuses
 class abil(object):
     #Does Python have abstract classes? This is an abstract class, pretty much
     def __init__(self, lvl=0):
         self.name="Confetti"
         #Stuff that won't matter until much later in development:
         self.lvl=lvl
-        self.sp=0 #mana/stamina cost
-        self.tm=0 #time cost
         self.des="Showers the target with confetti. This looks cool, but doesn't really do anything."
     def use(self, usr, tar):
         #tar is the fighter that is the target of the ability
@@ -17,13 +15,39 @@ class abil(object):
         return "{0:10} (lvl.{1:>2})".format(self.name, self.lvl)
     def update_flavor(self):
         #an optional function, for when the ability may change based off of level
-        return
+        pass
     def desc(self):
         self.update_flavor()
         n=str(self)+":\n"
-        #n+="\tCharge Time:{0:>2}".format(self.tm)
         n+="\t"+self.des 
         return n       
+class charged_abil(abil):
+    def __init__(self, lvl=0):
+        self.name="Charged_abil"
+        self.lvl=lvl
+        self.des="An ability that charges before it is activated. (Sample deals 1 damage after 2 turns)"
+    def use(self, usr, tar):
+        if usr.is_ready():
+            st=self.get_charger(usr, tar)
+            usr.start_charging()
+            usr.start_stat(st)
+            return self.use_desc(usr, tar)
+        #The next part is just in case something goes wrong, even though this should never happen
+        return "{0} tries to use {1}, but is currently unable to.".format(usr.name, self.name)
+    def use_desc(self, usr, tar):
+        return "{0} starts charging an attack against {1}.".format(self.usr, self.tar)
+    #charger parts:
+    def charger_result(self, usr, tar):
+        n="{0} attacks {1}!\n".format(usr.name, tar.name)
+        n+=tar.defend(1)
+        return n
+    def charger_death(self, usr, tar):
+        n="{0} stops charging their attack!".format(usr.name)
+        return n
+    def get_charger(self, usr, tar):
+        st=statuses.attack_charge(2, usr, tar, self.charger_result, self.charger_death)
+        return st
+        
 #Old punch ability. Used the old events system, instead of the new statuses ability
 '''class punch(abil):
     def __init__(self, lvl=0):

@@ -35,7 +35,7 @@ class charged_abil(abil):
         #The next part is just in case something goes wrong, even though this should never happen
         return "{0} tries to use {1}, but is currently unable to.".format(usr.name, self.name)
     def use_desc(self, usr, tar):
-        return "{0} starts charging an attack against {1}.".format(self.usr, self.tar)
+        return "{0} starts charging an attack against {1}.".format(usr.name, tar.name)
     #charger parts:
     def charger_result(self, usr, tar):
         n="{0} attacks {1}!\n".format(usr.name, tar.name)
@@ -48,6 +48,31 @@ class charged_abil(abil):
         st=statuses.attack_charge(2, usr, tar, self.charger_result, self.charger_death)
         return st
         
+'''class status_abil(abil):
+    def __init__(self, lvl=0):
+        self.name="Status_abil"
+        self.lvl=lvl
+        self.des="An ability that gives a status effect. (Sample deals 1 damage the next turn)"
+    def use(self, usr, tar):
+        if usr.is_ready():
+            st=self.get_status(tar)
+            tar.start_stat(st)
+            return self.use_desc(usr, tar)
+        return "{0} tires to apply a status to {1}, but it fails.".format(usr.name, tar.name)
+    #Status parts:
+    def get_status(self, tar):
+        st=statuses.unit_status(1, tar, self.status_tick, self.status_end, self.status_die)
+        return st
+    def status_tick(self, tar):
+        return "Nothing happens"
+    def status_result(self, tar):
+        n="{0} is hurt by the status.".format(tar.name)
+        n+=tar.defend(1)
+        return n
+    def status_die(self, tar):
+        n="{0} shakes off the status.".format(tar.name)
+        return n
+'''         
 #Old punch ability. Used the old events system, instead of the new statuses ability
 '''class punch(abil):
     def __init__(self, lvl=0):

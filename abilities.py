@@ -48,7 +48,7 @@ class charged_abil(abil):
         st=statuses.attack_charge(2, usr, tar, self.charger_result, self.charger_death)
         return st
         
-'''class status_abil(abil):
+class status_abil(abil):
     def __init__(self, lvl=0):
         self.name="Status_abil"
         self.lvl=lvl
@@ -72,7 +72,7 @@ class charged_abil(abil):
     def status_die(self, tar):
         n="{0} shakes off the status.".format(tar.name)
         return n
-'''         
+         
 #Old punch ability. Used the old events system, instead of the new statuses ability
 '''class punch(abil):
     def __init__(self, lvl=0):

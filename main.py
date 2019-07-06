@@ -6,18 +6,20 @@ stsR=0  #ready for new action
 stsW=1  #waiting for event
 
 class fighter(object):
-    def __init__(self, name, mhp=10, ac=0):
+    def __init__(self, name, mhp=10):
         #Basic constructor. 
         #Name is what it will be reffered to, you may want to add numbers when you swarm them
         #mhp is "max hp", the highest the health can get to, and also the starting health
         #ac is armor class, the amount of damage that will be removed from each hit
         self.name=name
         self.mhp=mhp
-        self.ac=ac
+        self.reacts=[]
         self.hp=mhp
         self.skills=[]
-        self.sts=stsR
+        self.ded=False
+        self.red=True#"ready"
         self.stats=[]
+        self.items=[]
         
     def __str__(self):
         #When you try to print it normally, 
@@ -26,22 +28,53 @@ class fighter(object):
         #I'll work on making this a nicer print later on.
         #Like by finding out how to put a % symbol in there without messing up the format string
     def defend(self, hit):
-        #for now, "hit" is just a number of damage points. Later on it will be an object, for special defense logic
-        d=hit-self.ac
-        if self.hp<=0:
-            return "{0} has already been defeated!".format(self.name)
-        if d>0:
-            self.hp-=d
-            if self.hp>0:
-                return "{0} was hit for {1} damage!".format(self.name, d)
-            else:
-                self.sts=stsD
-                return "{0} was hit for {1} damage! {0} has been defeated!".format(self.name, d)
+        #"hit" is an object that "reacts" will possibly block. It can be anything from a hex to a sword swing to a panacea
+        for react in self.reacts:
+            react.respond(hit)
+        if hit.dispelled():
+            return hit.dis_ex()
+        return hit.resolve()
+    def damage(self, dmg):
+        if self.ded:
+            return "{0} is already defeated, so therefore cannot take more damage.".format(self.name)
+        elif dmg<=0:
+            return "{0} takes no damage!".format(self.name)
         else:
-            return "{0} blocked the attack!".format(self.name)
-    def learn(self, abil):
+            self.hp-=dmg
+            n="{0} has taken {1} point(s) of damage!".format(self.name, dmg)
+            if self.hp<=0:
+                self.hp=0
+                self.ded=True
+                return n+"{0} has been defeated!".format(self.name)
+            return n
+    def heal(self, health):
+        if self.ded:
+            return "{0} is defeated, so cannot be healed that easily.".format(self.name)
+        elif health<=0:
+            return "{0} heals no health...".format(self.name)
+        else:
+            self.hp+=health
+            if self.hp>self.mhp:
+                self.hp=self.mhp
+                return "{0} has been healed to full health!".format(self.name)
+            return "{0} has been healed for {1} point(s) of health.".format(self.name, health)
+    def revive(self, health, points=False):
+        #if points=True, health is hp points healed. if False, health is % of max hp healed
+        #health=25 points=false => revived with 25% max health
+        #health=25 points=true => revived with 25 health points
+        if not self.ded:
+            return "{0} is not defeated, so cannot be revived...".format(self.name)
+        else:
+            self.ded=False
+            n="{0} has been revived.".format(self.name)
+            if points:
+                return n+self.heal(health)
+            else:
+                x=(self.mhp*health)/100
+                return n+self.heal(x)
+    def learn_skill(self, abil):
         self.skills.append(abil)
-    def forget(self, abil):
+    def forget_skill(self, abil):
         #Removes an ability
         #Note- you give this function the specific ability OBJECT, not just an object of the same ability type
         self.skills.remove(abil)
@@ -69,17 +102,11 @@ class fighter(object):
         self.stats.remove(stat)
     #Yeah, I'm going to rework this whole system later:
     def is_defeated(self):
-        return self.sts==stsD
-    def is_charging(self):
-        return self.sts==stsW
-    def end_charging(self):
-        self.sts=stsR
-    def start_charging(self):
-        self.sts=stsW
+        return self.ded
     def is_ready(self):
         return self.sts==stsR
     
-    def decide(self, allies, enimies):
+    '''def decide(self, allies, enimies):
         #for the base fighter class, this will just be asking for user input
         print "You are playing as:"
         print "\t"+str(self)
@@ -159,7 +186,7 @@ class fighter(object):
                     if x=="y":
                         return self.use_skill(sn, tar)
                     continue
-                continue
+                continue'''
         
 class team(object):
     def __init__(self, name):
@@ -185,7 +212,7 @@ class team(object):
         n=""
         for i in range(len(self.members)):
             ft=self.members[i]
-            if ft.sts==stsR:
+            if ft.is_ready():
                 n+=ft.decide(self, enimies)
         return n
         
@@ -202,7 +229,7 @@ class team(object):
         return self.members[pos]
     def is_defeated(self):
         for i in range(len(self.members)):
-            if self.members[i].sts==stsD:
+            if self.members[i].is_defeated():
                 return False
         return True
 

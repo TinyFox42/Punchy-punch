@@ -1,25 +1,21 @@
 #A simple little game, at least for now
 import abilities
-#Statuses.
-stsD=-1 #dead/defeated
-stsR=0  #ready for new action
-stsW=1  #waiting for event
+
 
 class fighter(object):
     def __init__(self, name, mhp=10):
         #Basic constructor. 
         #Name is what it will be reffered to, you may want to add numbers when you swarm them
         #mhp is "max hp", the highest the health can get to, and also the starting health
-        #ac is armor class, the amount of damage that will be removed from each hit
         self.name=name
         self.mhp=mhp
-        self.reacts=[]
+        self.reacts=[] #list of things that may stop things from happening
         self.hp=mhp
-        self.skills=[]
-        self.ded=False
+        self.skills=[] #list of actions you can do
+        self.ded=False #if the unit is dead or not
         self.red=True#"ready"
-        self.stats=[]
-        self.items=[]
+        self.stats=[] #pretty much any information that isn't hard-coded or put into another bucket. everything in this list gets .tick() called on it
+        self.items=[] #items you are holding, will be important much later in development
         
     def __str__(self):
         #When you try to print it normally, 
@@ -28,13 +24,16 @@ class fighter(object):
         #I'll work on making this a nicer print later on.
         #Like by finding out how to put a % symbol in there without messing up the format string
     def defend(self, hit):
+        #The main logic for "status effects stop things from happening"
         #"hit" is an object that "reacts" will possibly block. It can be anything from a hex to a sword swing to a panacea
+        #This is more of a place to put in everything from "you block it with your sheild" to "the curse the enemy placed on you stops the healing spell from working"
         for react in self.reacts:
-            react.respond(hit)
-        if hit.dispelled():
-            return hit.dis_ex()
-        return hit.resolve()
+            react.respond(hit)#The react does something with the hit...
+        if hit.dispelled():#The hit will remember if it was stopped earlier or not...
+            return hit.dis_ex()#and then it explains why...
+        return hit.resolve()#or the attack goes through (possibly with less effect than normal)
     def damage(self, dmg):
+        #this is a simple one: you take dmg damage. Sanity checks and actual death event
         if self.ded:
             return "{0} is already defeated, so therefore cannot take more damage.".format(self.name)
         elif dmg<=0:
@@ -48,6 +47,7 @@ class fighter(object):
                 return n+"{0} has been defeated!".format(self.name)
             return n
     def heal(self, health):
+        #logical reverse of damage
         if self.ded:
             return "{0} is defeated, so cannot be healed that easily.".format(self.name)
         elif health<=0:
@@ -101,10 +101,12 @@ class fighter(object):
     def end_stat(self, stat):
         self.stats.remove(stat)
     #Yeah, I'm going to rework this whole system later:
+    #Hey, I actually did rework it!
     def is_defeated(self):
         return self.ded
     def is_ready(self):
-        return self.sts==stsR
+        #this will probably get more complicated later
+        return self.red
     
     '''def decide(self, allies, enimies):
         #for the base fighter class, this will just be asking for user input

@@ -1,0 +1,23 @@
+Ok, so, instead of an overly complicated "every attack/block combination has its own check", a list of damage and protection types.
+So, yeah, this is going to be a list of attack types and such
+
+First off, there is dodge. It is the chance that an attack completly misses, but is generally lowered by some other protection
+
+Main group: Physical/kinetic:
+	*Blunt - lowest damage, but hardest to block. At lot of blocked damage gets turned into this (partially)
+	*Slash - medium damage, harder to block. Swords and stuff. Can be blocked by many types of armor, but some of it is turned into blunt
+	*Pierce - Highest damage, very hard to block. Guns, arrows, and some swords. Rare to be blocked by armor, and a lot of it will be turned into blunt
+
+Temperature group:
+	Thermal damage:
+		Oh noes! You are being heated up/cooled down. Hopefully you packed your thermal gear. Harder to protect against, especially over time, but is a rare form of damage.
+
+	Fire damage:
+		Well, someone just put an ignition source close to you. Is your armor flammable? Hopefully not.
+		Can destroy some equipment, or just start dealing damage over time if you get lit on fire.
+
+	EM damage:
+		Well, this is interesting... Someone is shining a bright light on you. Hopefully its not heating you up too much. Or burning through your stuff.
+
+	Frozen (status effect):
+		You know, I don't even know how this happened. Or if it is even possible. Part of your body is frozen in a block of ice. Have fun with this.

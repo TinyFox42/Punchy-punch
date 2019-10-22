@@ -21,3 +21,13 @@ Temperature group:
 
 	Frozen (status effect):
 		You know, I don't even know how this happened. Or if it is even possible. Part of your body is frozen in a block of ice. Have fun with this.
+
+So, quick list of a few weapons:
+	*Club- punch stuff! Deals 5 blunt damage
+	*Sword - slash stuff! Deals 7 slashing damage, or 4 blunt damage
+	*Gun - deals 10 piercing damage, or 1 blunt damage (Later on, I should check if this should be 1 or 0. I feel like a bullet won't kill you if it is stopped from piercing the skin, but I don't know how much it will hurt you.)
+
+Armor:
+	*Padded jacket - quarter stops shash, fails to stop peirce, blocks 75% of blunt damage
+	*Chain mail - Stops slashing damage, half stops pierce, stops 5% of the resulting blunt
+	*Bulletproof vest - Stops piercing damage, quarter stops slash, stops 25% of the blunt
